@@ -1,12 +1,11 @@
 import React from 'react';
-import { AsyncStorage, Text,View } from 'react-native';
+import { AsyncStorage, Text } from 'react-native';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { TOKEN_KEY } from '../constants';
 
 class CheckToken extends React.Component {
   componentDidMount = async () => {
-    // await AsyncStorage.setItem(TOKEN_KEY, '');
     const token = await AsyncStorage.getItem(TOKEN_KEY);
     if (!token) {
       this.props.history.push('/signup');
@@ -15,31 +14,27 @@ class CheckToken extends React.Component {
 
     let response;
     try {
-      response = await this.props.mutate({
-        variables: {
-          token,
-        },
-      });
+      response = await this.props.mutate();
     } catch (err) {
       this.props.history.push('/signup');
       return;
     }
 
-    const { refreshToken } = response.data;
-    await AsyncStorage.setItem(TOKEN_KEY, refreshToken);
+    const { refreshToken: { token: newToken } } = response.data;
+    await AsyncStorage.setItem(TOKEN_KEY, newToken);
     this.props.history.push('/products');
   };
 
   render() {
-    return <View style={{flex: 1,alignItems: 'center', justifyContent: 'center',}}>
-       <Text>loading...</Text>
-      </View>;
+    return <Text>loading...</Text>;
   }
 }
 
 const refreshTokenMutation = gql`
-  mutation($token: String!) {
-    refreshToken(token: $token)
+  mutation {
+    refreshToken {
+      token
+    }
   }
 `;
 

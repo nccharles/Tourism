@@ -21,7 +21,7 @@ export default class TextField extends React.PureComponent {
 
     return (
       <TextInput
-      underlineColorAndroid='transparent'
+        underlineColorAndroid="transparent"
         onChangeText={this.onChangeText}
         value={value}
         style={styles.field}
