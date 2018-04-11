@@ -7,11 +7,11 @@ import { createUploadLink } from 'apollo-upload-client';
 import { setContext } from 'apollo-link-context';
 import { WebSocketLink } from 'apollo-link-ws';
 
-import Routes from './routes';
-import { TOKEN_KEY, HOST } from './constants';
+import Routes from './routes/AppNavigation';
+import { TOKEN_KEY } from './constants';
 
 const wsLink = new WebSocketLink({
-  uri: `ws://${HOST}:4000`,
+  uri: 'wss://subscriptions.graph.cool/v1/cjfhya5792pdz0171wwtabziv',
   options: {
     reconnect: true,
   },
@@ -33,7 +33,7 @@ const link = split(
     return kind === 'OperationDefinition' && operation === 'subscription';
   },
   wsLink,
-  authLink.concat(createUploadLink({ uri: `http://${HOST}:4000` })),
+  authLink.concat(createUploadLink({ uri: 'https://api.graph.cool/simple/v1/cjfhya5792pdz0171wwtabziv' })),
 );
 
 const client = new ApolloClient({

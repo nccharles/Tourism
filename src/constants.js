@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
-
-export const TOKEN_KEY = '@ecommerce/token';
-export const HOST = Platform.OS === 'ios' ? 'localhost' : '192.168.1.71';
+export const TOKEN_KEY = '@booking/token';
+export const USER_ID = '@userIdKey'
+export const USER_NAME = '@userName'
+export const USER_EMAIL = '@userEmail'

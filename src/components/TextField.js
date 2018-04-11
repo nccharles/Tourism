@@ -2,12 +2,13 @@ import React from 'react';
 import { TextInput, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  field: {
-    borderBottomWidth: 1,
-    fontSize: 20,
-    marginBottom: 15,
-    height: 35,
+  input: {
+    flex: 1,
+    fontSize: 15,
   },
+  whiteFont: {
+    color: '#FFF'
+  }
 });
 
 export default class TextField extends React.PureComponent {
@@ -21,10 +22,10 @@ export default class TextField extends React.PureComponent {
 
     return (
       <TextInput
-        underlineColorAndroid="transparent"
+      underlineColorAndroid='transparent'
         onChangeText={this.onChangeText}
         value={value}
-        style={styles.field}
+        style={[styles.input, styles.whiteFont]}
         placeholder={name}
         autoCapitalize="none"
         secureTextEntry={!!secureTextEntry}

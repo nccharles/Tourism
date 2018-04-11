@@ -14,12 +14,12 @@ import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import jwtDecode from 'jwt-decode';
 
-import { TOKEN_KEY, HOST } from '../constants';
+import { TOKEN_KEY } from '../constants';
 import TextField from '../components/TextField';
 
 const styles = StyleSheet.create({
   images: {
-    height: 100,
+    height: 100,  
     width: 100,
   },
   row: {
@@ -246,7 +246,7 @@ class Products extends React.Component {
             <View style={styles.row}>
               <Image
                 style={styles.images}
-                source={{ uri: `http://${HOST}:4000/${item.pictureUrl}` }}
+                source={{ uri: `http://192.168.1.64:4000/${item.pictureUrl}` }}
               />
               <View style={styles.right}>
                 <Text style={styles.name}>{item.name}</Text>
@@ -260,7 +260,7 @@ class Products extends React.Component {
                     })
                   }
                 >
-                  <Text style={styles.price}>{`${item.price} Rwf`}</Text>
+                  <Text style={styles.price}>{`$${item.price}`}</Text>
                 </TouchableOpacity>
                 {item.showButtons ? (
                   <View style={styles.editSection}>

@@ -1,11 +1,18 @@
 import React from 'react';
-import { AsyncStorage, Text, Button, View } from 'react-native';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-
+import { Font } from 'expo';
+import { Ionicons, Feather, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
+import { AsyncStorage, StyleSheet, Modal, Text, View, Image, ImageBackground, TextInput, TouchableOpacity } from 'react-native'
+import { Colors } from '../Themes/'
+import styles from './Styles/SignupScreenStyle'
 import TextField from '../components/TextField';
-import { TOKEN_KEY } from '../constants';
-
+import { TOKEN_KEY, USER_ID,USER_EMAIL,USER_NAME } from '../constants';
+const background = require("../Images/signup_bg.png");
+const backIcon = require("../Images/back.png");
+const personIcon = require("../Images/signup_person.png");
+const lockIcon = require("../Images/signup_lock.png");
+const emailIcon = require("../Images/signup_email.png");
 const defaultState = {
   values: {
     name: '',
@@ -48,42 +55,97 @@ class Signup extends React.Component {
       });
       return;
     }
-
-    await AsyncStorage.setItem(TOKEN_KEY, response.data.signup.token);
-    // this.setState(defaultState);
-    this.props.history.push('/products');
+    await AsyncStorage.setItem(USER_ID, response.data.createUser.id);
+    await AsyncStorage.setItem(USER_NAME, response.data.createUser.name);
+    await AsyncStorage.setItem(USER_EMAIL, response.data.createUser.email);
+    this.setState(defaultState);
+    this.props.navigation.navigate('booking');
   };
 
   goToLoginPage = () => {
-    this.props.history.push('/login');
+    this.props.navigation.navigate('login');
   };
 
   render() {
     const { errors, values: { name, email, password } } = this.state;
 
     return (
-      <View
-        style={{
-          flex: 1,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <View style={{ width: 200 }}>
-          <TextField value={name} name="name" onChangeText={this.onChangeText} />
-          {errors.email && <Text style={{ color: 'red' }}>{errors.email}</Text>}
-          <TextField value={email} name="email" onChangeText={this.onChangeText} />
-          <TextField
-            value={password}
-            name="password"
-            onChangeText={this.onChangeText}
-            secureTextEntry
-          />
-          <Button title="Create account" onPress={this.submit} />
-          <Text style={{ textAlign: 'center' }}>or</Text>
-          <Button title="Login" onPress={this.goToLoginPage} />
-        </View>
+      <View style={styles.container}>
+        <ImageBackground
+          source={background}
+          style={[styles.container, styles.bg]}
+          resizeMode="cover"
+        >
+          <View style={styles.headerContainer}>
+
+            <View style={styles.headerIconView}>
+              <TouchableOpacity onPress={this.goToLoginPage} style={styles.headerBackButtonView}>
+                <Image
+                  source={backIcon}
+                  style={styles.backButtonIcon}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.headerTitleView}>
+              <Text style={styles.titleViewText}>Sign Up</Text>
+            </View>
+
+          </View>
+          <View style={styles.inputsContainer}>
+            <View style={styles.inputContainer}>
+              <View style={styles.iconContainer}>
+                <Image
+                  source={personIcon}
+                  style={styles.inputIcon}
+                  resizeMode="contain"
+                />
+              </View>
+              <TextField value={name} name="name" onChangeText={this.onChangeText} />
+              {errors.email && <Text style={{ color: 'red' }}>{errors.email}</Text>}
+            </View>
+            <View style={styles.inputContainer}>
+              <View style={styles.iconContainer}>
+                <Image
+                  source={emailIcon}
+                  style={styles.inputIcon}
+                  resizeMode="contain"
+                />
+              </View>
+              <TextField value={email} name="email" onChangeText={this.onChangeText} />
+            </View>
+            <View style={styles.inputContainer}>
+              <View style={styles.iconContainer}>
+                <Image
+                  source={lockIcon}
+                  style={styles.inputIcon}
+                  resizeMode="contain"
+                />
+              </View>
+              <TextField
+                value={password}
+                name="password"
+                onChangeText={this.onChangeText}
+                secureTextEntry
+              />
+            </View>
+          </View>
+          <View style={styles.footerContainer}>
+
+            <TouchableOpacity onPress={this.submit}>
+              <View style={styles.signup}>
+                <Text style={styles.whiteFont}>Sign up</Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity  onPress={this.goToLoginPage}>
+              <View style={styles.signin}>
+                <Text style={styles.greyFont}>Already have an account?<Text style={styles.whiteFont}> Sign In</Text></Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
       </View>
     );
   }
@@ -91,8 +153,11 @@ class Signup extends React.Component {
 
 const signUpMutation = gql`
   mutation($name: String!, $email: String!, $password: String!) {
-    signup(name: $name, email: $email, password: $password) {
-      token
+    createUser(name: $name ,authProvider: { email: { email: $email, password: $password } }){
+      id
+      name
+      email
+      password
     }
   }
 `;

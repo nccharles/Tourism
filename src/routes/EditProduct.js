@@ -5,7 +5,6 @@ import { ReactNativeFile } from 'apollo-upload-client';
 
 import { productsQuery } from './Products';
 import Form from '../components/Form';
-import { HOST } from '../constants';
 
 class EditProduct extends React.Component {
   submit = async (values) => {
@@ -54,7 +53,7 @@ class EditProduct extends React.Component {
       <Form
         initialValues={{
           ...item,
-          pictureUrl: `http://${HOST}:4000/${item.pictureUrl}`,
+          pictureUrl: `http://localhost:4000/${item.pictureUrl}`,
           price: `${item.price}`,
         }}
         submit={this.submit}

@@ -1,41 +1,23 @@
 import React from 'react';
-import { AsyncStorage, Text } from 'react-native';
+import { AsyncStorage, Text,View,Image} from 'react-native';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { TOKEN_KEY } from '../constants';
-
-class CheckToken extends React.Component {
+import { TOKEN_KEY,USER_ID, USER_NAME } from '../constants';
+import { ViewPagerAndroid } from 'react-native-gesture-handler';
+const loadIcon=require("../Images/loading.gif")
+export default class CheckToken extends React.Component {
   componentDidMount = async () => {
     const token = await AsyncStorage.getItem(TOKEN_KEY);
-    if (!token) {
-      this.props.history.push('/signup');
+    const userID = await AsyncStorage.getItem(USER_ID);
+    if (!token && !userID) {
+      this.props.navigation.navigate('signup');
       return;
-    }
-
-    let response;
-    try {
-      response = await this.props.mutate();
-    } catch (err) {
-      this.props.history.push('/signup');
-      return;
-    }
-
-    const { refreshToken: { token: newToken } } = response.data;
-    await AsyncStorage.setItem(TOKEN_KEY, newToken);
-    this.props.history.push('/products');
+    } 
+    this.props.navigation.navigate('booking');
   };
 
   render() {
-    return <Text>loading...</Text>;
+    return <View style={{flex: 1,justifyContent: 'center',alignItems: 'center',}}><Image style={{width:80,height: 80}} source={loadIcon} /></View>;
   }
 }
 
-const refreshTokenMutation = gql`
-  mutation {
-    refreshToken {
-      token
-    }
-  }
-`;
-
-export default graphql(refreshTokenMutation)(CheckToken);
