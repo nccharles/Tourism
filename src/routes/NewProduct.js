@@ -12,7 +12,7 @@ class NewProduct extends React.Component {
     const picture = new ReactNativeFile({
       uri: pictureUrl,
       type: 'image/png',
-      name: 'i-am-a-name',
+      name: 'i-am-a-who',
     });
 
     const { state: variables } = this.props.location;
