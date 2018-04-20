@@ -53,6 +53,13 @@ export default StyleSheet.create({
     flexDirection: 'row',
     height: 60,
   },
+  error: {
+    borderWidth: 1,
+    borderBottomColor: 'red',
+    borderColor: 'transparent',
+    flexDirection: 'row',
+    height: 60,
+  },
   iconContainer: {
     paddingHorizontal: 15,
     justifyContent: 'center',
@@ -81,6 +88,15 @@ export default StyleSheet.create({
   greyFont: {
     color: '#D8D8D8'
   },
+  signuperror: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+  },
+  redFont: {
+    color: 'red'
+  },
+  
   whiteFont: {
     color: '#FFF'
   },

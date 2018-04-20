@@ -14,7 +14,7 @@ import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import jwtDecode from 'jwt-decode';
 
-import { TOKEN_KEY } from '../constants';
+import { MYTOKEN } from '../constants';
 import TextField from '../components/TextField';
 
 const styles = StyleSheet.create({
@@ -108,7 +108,7 @@ class Products extends React.Component {
   };
 
   componentDidMount = async () => {
-    const token = await AsyncStorage.getItem(TOKEN_KEY);
+    const token = await AsyncStorage.getItem(MYTOKEN);
     const { userId } = jwtDecode(token);
     this.setState({
       userId,

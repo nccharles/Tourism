@@ -18,7 +18,7 @@ export default class TextField extends React.PureComponent {
   };
 
   render() {
-    const { value, secureTextEntry, name } = this.props;
+    const { value, secureTextEntry,autoCapitalize, name } = this.props;
 
     return (
       <TextInput
@@ -27,7 +27,7 @@ export default class TextField extends React.PureComponent {
         value={value}
         style={[styles.input, styles.whiteFont]}
         placeholder={name}
-        autoCapitalize="none"
+        autoCapitalize={!!autoCapitalize}
         secureTextEntry={!!secureTextEntry}
       />
     );

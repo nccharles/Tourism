@@ -3,8 +3,13 @@ const { width, height } = Dimensions.get("window");
 export default StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center'
   },
+  imageprofile: {
+    flex: 1,
+    width: null,
+    height: null,
+  },
+ 
   headerWrap:{
     flexDirection: "row",
     justifyContent: 'space-between',

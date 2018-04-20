@@ -8,7 +8,7 @@ import { setContext } from 'apollo-link-context';
 import { WebSocketLink } from 'apollo-link-ws';
 
 import Routes from './routes/AppNavigation';
-import { TOKEN_KEY } from './constants';
+import { MYTOKEN } from './constants';
 
 const wsLink = new WebSocketLink({
   uri: 'wss://subscriptions.graph.cool/v1/cjfhya5792pdz0171wwtabziv',
@@ -18,7 +18,7 @@ const wsLink = new WebSocketLink({
 });
 
 const authLink = setContext(async (_, { headers }) => {
-  const token = await AsyncStorage.getItem(TOKEN_KEY);
+  const token = await AsyncStorage.getItem(MYTOKEN);
   return {
     headers: {
       ...headers,

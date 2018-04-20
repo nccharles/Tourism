@@ -3,7 +3,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { AppLoading, Asset, Font } from 'expo';
 import TextField from '../components/TextField';
-import { TOKEN_KEY, USER_ID,USER_EMAIL,USER_NAME } from '../constants';
+import { MYTOKEN, USER_ID,USER_EMAIL,USER_NAME } from '../constants';
 import { FontAwesome, Ionicons, Feather } from '@expo/vector-icons';
 import { AsyncStorage, StatusBar, StyleSheet, Modal, Dimensions, ImageBackground, Text, TextInput, KeyboardAvoidingView, View, TouchableOpacity, Image } from 'react-native';
 const { width, height } = Dimensions.get("window");
@@ -26,7 +26,8 @@ const defaultState = {
     email: '',
     password: '',
   },
-  errors: {},
+  errors:{},
+  errorText: '',
   isSubmitting: false,
   isReady: false,
 };
@@ -77,13 +78,17 @@ class Login extends React.Component {
       await AsyncStorage.setItem(USER_ID, user.id);
       await AsyncStorage.setItem(USER_NAME, user.name);
       await AsyncStorage.setItem(USER_EMAIL, user.email);
-      await AsyncStorage.setItem(TOKEN_KEY, token);
+      await AsyncStorage.setItem(MYTOKEN, token);
       this.setState(defaultState);
-      this.props.navigation.navigate('booking');
+      this.props.navigation.navigate('booking',{userId:user.id,Username:user.name});
     } catch(error){
       console.log(error)
       this.setState({
+        errorText:'Wrong Email or Password',
         isSubmitting: false,
+        values:{
+          password: ''
+        }
       });
     }
   };
@@ -107,19 +112,22 @@ class Login extends React.Component {
     return (
 
       <View style={styles.container}>
-        <StatusBar barStyle="light-content" hidden={false} />
+         <StatusBar backgroundColor="blue" barStyle="light-content" />
         <ImageBackground source={background} style={styles.background} resizeMode="cover">
 
           <View style={styles.markWrap}>
             <Image source={mark} style={styles.mark} resizeMode="contain" />
           </View>
+          <View style={styles.signinerror}>
+                <Text style={styles.redFont}>{this.state.errorText}</Text>
+              </View>
           <View style={styles.wrapper}>
             <View style={styles.inputWrap}>
               <View style={styles.iconWrap}>
                 <Image source={personIcon} style={styles.icon} resizeMode="contain" />
               </View>
-              {errors.email && <Text style={{ color: 'red' }}>{errors.email}</Text>}
-              <TextField value={email} name="email" onChangeText={this.onChangeText} /></View>
+              {/* {errors.email && <Text style={{ color: 'red' }}>{errors.email}</Text>} */}
+              <TextField value={email} name="email" autoCapitalize onChangeText={this.onChangeText} /></View>
             <View style={styles.inputWrap}>
               <View style={styles.iconWrap}>
                 <Image source={lockIcon} style={styles.icon} resizeMode="contain" />
@@ -128,6 +136,7 @@ class Login extends React.Component {
                 <TextField
                 value={password}
                 name="password"
+                autoCapitalize
                 onChangeText={this.onChangeText}
                 secureTextEntry
               /></View>

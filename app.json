@@ -16,6 +16,12 @@
       "resizeMode": "contain",
       "backgroundColor": "#fff"
     },
+    "android":{
+      "package":"com.nccharles.barbershop",
+      "versionCode": 1,
+      "permissions": [],
+      "icon":"./src/Images/login1_mark.png"
+      },
     "packagerOpts": {
       "assetExts": [
         "ttf"

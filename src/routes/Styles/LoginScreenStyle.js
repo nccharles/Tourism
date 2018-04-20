@@ -4,6 +4,9 @@ const { width, height } = Dimensions.get("window");
 export default StyleSheet.create({
   container: {
     flex: 1,
+    '@media ios': {
+      paddingTop: 20,
+    },
   },
   markWrap: {
     flex: 1,
@@ -77,5 +80,15 @@ export default StyleSheet.create({
   loadingImage: {
     width: 40,
     height: 40
-  }
+  },
+  signinerror: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+  },
+  redFont: {
+    color: 'red'
+  },
+  
+
 })
